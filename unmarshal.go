@@ -1,6 +1,8 @@
 package configx
 
 import (
+	"io"
+	"io/fs"
 	"os"
 
 	"github.com/goccy/go-yaml"
@@ -8,18 +10,29 @@ import (
 
 func Unmarshal[Config any](path string) (Config, error) {
 	var cfg Config
-	err := unmarshal(path, &cfg)
 
+	bs, err := os.ReadFile(path)
+	if err != nil {
+		return cfg, err
+	}
+
+	err = yaml.Unmarshal(bs, &cfg)
 	return cfg, err
 }
 
-func unmarshal(p string, cfg interface{}) error {
-	var bs []byte
+func UnmarshalFs[Config any](fs fs.FS, path string) (Config, error) {
+	var cfg Config
 
-	bs, err := os.ReadFile(p)
+	f, err := fs.Open(path)
 	if err != nil {
-		return err
+		return cfg, err
 	}
 
-	return yaml.Unmarshal(bs, &cfg)
+	bs, err := io.ReadAll(f)
+	if err != nil {
+		return cfg, err
+	}
+
+	err = yaml.Unmarshal(bs, &cfg)
+	return cfg, err
 }
