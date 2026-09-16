@@ -1,0 +1,2 @@
+db:
+  path: 'file:///tmp/foo.db'
