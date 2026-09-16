@@ -14,7 +14,7 @@ func TestUnmarshallEmbedApp(t *testing.T) {
 
 	exp := configx.EmbedApp{
 		Database: configx.Sqlite{
-			Path: "file:///tmp/foo.db",
+			Path: "foo.db",
 		},
 	}
 

@@ -17,10 +17,24 @@ func TestUnmarshallSqlite(t *testing.T) {
 	}
 
 	exp := configx.Sqlite{
-		Path: "file:///tmp/foo.db",
+		Path: "foo.db",
 	}
 
 	if cfg != exp {
 		t.Fatalf("expected %v, got: %v", exp, cfg)
+	}
+}
+
+func TestSqliteConnectionString(t *testing.T) {
+	cfg, err := configx.UnmarshalFs[configx.Sqlite](fs, "sqlite.yaml")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	exp := "file:foo.db"
+
+	conn := cfg.Conn()
+	if conn != exp {
+		t.Fatalf("expected %v, got: %v", exp, conn)
 	}
 }
