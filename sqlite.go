@@ -9,5 +9,5 @@ type Sqlite struct {
 }
 
 func (cfg Sqlite) Conn() string {
-	return fmt.Sprintf("file://%s", cfg.Path)
+	return fmt.Sprintf("file:%s", cfg.Path)
 }
