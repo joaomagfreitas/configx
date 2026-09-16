@@ -16,7 +16,7 @@ func Unmarshal[Config any](path string) (Config, error) {
 		return cfg, err
 	}
 
-	err = yaml.Unmarshal(bs, &cfg)
+	err = yaml.UnmarshalWithOptions(bs, &cfg, yaml.Strict())
 	return cfg, err
 }
 
@@ -33,6 +33,6 @@ func UnmarshalFs[Config any](fs fs.FS, path string) (Config, error) {
 		return cfg, err
 	}
 
-	err = yaml.Unmarshal(bs, &cfg)
+	err = yaml.UnmarshalWithOptions(bs, &cfg, yaml.Strict())
 	return cfg, err
 }
